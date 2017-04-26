@@ -15,6 +15,6 @@ namespace TABprojekt.Models
         public DateTime data_od { get; set; }
         public DateTime data_do { get; set; }
 
-        public Zawodnik zawodnik { get; set; }
+        public virtual Zawodnik zawodnik { get; set; }
     }
 }

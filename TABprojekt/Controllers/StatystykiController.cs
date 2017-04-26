@@ -19,6 +19,10 @@ namespace TABprojekt.Controllers
         {
             return View(db.Statystyki.ToList());
         }
+        public ActionResult Zawodnik_Statystyki(int id)
+        {
+            return View(db.Statystyki.Where(s=>s.zawodnik.id==id).ToList());
+        }
 
         // GET: Statystyki/Details/5
         public ActionResult Details(int? id)
@@ -38,6 +42,31 @@ namespace TABprojekt.Controllers
         // GET: Statystyki/Create
         public ActionResult Create()
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie + " " + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik = zawodnikitems;
+
+            List<SelectListItem> meczitems = new List<SelectListItem>();
+
+            var dd = db.Mecze.ToList();
+            foreach (var ll in dd)
+            {
+                meczitems.Add(new SelectListItem
+                {
+                    Text = ll.data.ToString("yyyy-MM-dd"),
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.mecz = meczitems;
             return View();
         }
 
@@ -48,6 +77,11 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,bramki,kartkiCzerwone,kartkiZolte")] Statystyki statystyki)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
+
+            statystyki.zawodnik = db.Zawodnik.Where(d => d.id == meczid).FirstOrDefault();
+            statystyki.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Statystyki.Add(statystyki);
@@ -61,6 +95,31 @@ namespace TABprojekt.Controllers
         // GET: Statystyki/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie + " " + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik = zawodnikitems;
+
+            List<SelectListItem> meczitems = new List<SelectListItem>();
+
+            var dd = db.Mecze.ToList();
+            foreach (var ll in dd)
+            {
+                meczitems.Add(new SelectListItem
+                {
+                    Text = ll.data.ToString("yyyy-MM-dd"),
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.mecz = meczitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +139,15 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,bramki,kartkiCzerwone,kartkiZolte")] Statystyki statystyki)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
+
+            statystyki.zawodnik = db.Zawodnik.Where(d => d.id == meczid).FirstOrDefault();
+            statystyki.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(statystyki).State = EntityState.Modified;
+                db.Statystyki.Remove(db.Statystyki.Where(k => k.id == statystyki.id).FirstOrDefault());
+                db.Statystyki.Add(statystyki);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

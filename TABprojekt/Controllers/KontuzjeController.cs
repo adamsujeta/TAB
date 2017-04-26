@@ -19,6 +19,10 @@ namespace TABprojekt.Controllers
         {
             return View(db.Kontuzje.ToList());
         }
+        public ActionResult Zawodnik_Kontuzje(int id)
+        {
+            return View(db.Kontuzje.Where(k=>k.zawodnik.id==id).ToList());
+        }
 
         // GET: Kontuzje/Details/5
         public ActionResult Details(int? id)
@@ -38,6 +42,18 @@ namespace TABprojekt.Controllers
         // GET: Kontuzje/Create
         public ActionResult Create()
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie + " " + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik = zawodnikitems;
             return View();
         }
 
@@ -48,6 +64,8 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,rodzaj,data_od,data_do")] Kontuzje kontuzje)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            kontuzje.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Kontuzje.Add(kontuzje);
@@ -61,6 +79,18 @@ namespace TABprojekt.Controllers
         // GET: Kontuzje/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie + " " + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik = zawodnikitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +110,12 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,rodzaj,data_od,data_do")] Kontuzje kontuzje)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            kontuzje.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(kontuzje).State = EntityState.Modified;
+                db.Kontuzje.Remove(db.Kontuzje.Where(k => k.id == kontuzje.id).FirstOrDefault());
+                db.Kontuzje.Add(kontuzje);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

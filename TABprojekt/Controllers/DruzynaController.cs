@@ -40,7 +40,58 @@ namespace TABprojekt.Controllers
         public ActionResult Create()
         {
            
-            ViewBag.liga = new SelectList(db.Liga.ToList(), "nazwa");
+            List<SelectListItem> ligaitems = new List<SelectListItem>();
+            List<SelectListItem> treneritems = new List<SelectListItem>();
+            List<SelectListItem> stadionitems = new List<SelectListItem>();
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var liga = db.Liga.ToList();
+            foreach (var ll in liga)
+            {
+                ligaitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var trener = db.Trener.ToList();
+            foreach (var ll in trener)
+            {
+                treneritems.Add(new SelectListItem
+                {
+                    Text = ll.imie + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var stadion = db.Stadion.ToList();
+            foreach (var ll in stadion)
+            {
+                stadionitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+
+
+            ViewBag.liga = ligaitems;
+            ViewBag.trener = treneritems;
+            ViewBag.stadion = stadionitems;
+            ViewBag.kraj = Krajitems;
+
             return View();
         }
 
@@ -51,7 +102,15 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,nazwa")] Druzyna druzyna)
         {
-            
+            int ligaid = Int32.Parse(Request.Form["LigaSelected"].ToString());
+            int stadionid = Int32.Parse(Request.Form["StadionSelected"].ToString());
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+            int trenerid = Int32.Parse(Request.Form["TrenerSelected"].ToString());
+
+            druzyna.liga = db.Liga.Where(l =>l.id== ligaid).FirstOrDefault();
+            druzyna.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
+            druzyna.kraj = db.Kraj.Where(l => l.id == krajid).FirstOrDefault();
+            druzyna.trener = db.Trener.Where(l => l.id == trenerid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Druzyna.Add(druzyna);
@@ -65,6 +124,58 @@ namespace TABprojekt.Controllers
         // GET: Druzyna/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> ligaitems = new List<SelectListItem>();
+            List<SelectListItem> treneritems = new List<SelectListItem>();
+            List<SelectListItem> stadionitems = new List<SelectListItem>();
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var liga = db.Liga.ToList();
+            foreach (var ll in liga)
+            {
+                ligaitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var trener = db.Trener.ToList();
+            foreach (var ll in trener)
+            {
+                treneritems.Add(new SelectListItem
+                {
+                    Text = ll.imie + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var stadion = db.Stadion.ToList();
+            foreach (var ll in stadion)
+            {
+                stadionitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+
+
+            ViewBag.liga = ligaitems;
+            ViewBag.trener = treneritems;
+            ViewBag.stadion = stadionitems;
+            ViewBag.kraj = Krajitems;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,10 +195,28 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,nazwa")] Druzyna druzyna)
         {
+            int ligaid = Int32.Parse(Request.Form["LigaSelected"].ToString());
+            int stadionid = Int32.Parse(Request.Form["StadionSelected"].ToString());
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+            int trenerid = Int32.Parse(Request.Form["TrenerSelected"].ToString());
+
+            druzyna.liga = db.Liga.Where(l => l.id == ligaid).FirstOrDefault();
+            druzyna.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
+            druzyna.kraj = db.Kraj.Where(l => l.id == krajid).FirstOrDefault();
+            druzyna.trener = db.Trener.Where(l => l.id == trenerid).FirstOrDefault();
+
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(druzyna).State = EntityState.Modified;
+            //    db.SaveChanges();
+
+            //}
             if (ModelState.IsValid)
             {
-                db.Entry(druzyna).State = EntityState.Modified;
+                db.Druzyna.Remove(db.Druzyna.Where(dd=>dd.id==druzyna.id).FirstOrDefault());
+                db.Druzyna.Add(druzyna);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(druzyna);

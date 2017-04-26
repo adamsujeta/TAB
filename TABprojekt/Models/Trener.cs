@@ -13,8 +13,7 @@ namespace TABprojekt.Models
         public string imie { get; set; }
         public string nazwisko { get; set; }
         public DateTime data_urodzenia { get; set; } 
-
-        public Kraj kraj { get; set; }
+        public virtual Kraj kraj { get; set; }
 
     }
 }

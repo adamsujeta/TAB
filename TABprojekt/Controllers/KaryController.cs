@@ -19,6 +19,10 @@ namespace TABprojekt.Controllers
         {
             return View(db.Kary.ToList());
         }
+        public ActionResult Zawodnik_Kary(int id)
+        {
+            return View(db.Kary.Where(k=>k.zawodnik.id==id).ToList());
+        }
 
         // GET: Karie/Details/5
         public ActionResult Details(int? id)
@@ -38,6 +42,18 @@ namespace TABprojekt.Controllers
         // GET: Karie/Create
         public ActionResult Create()
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie+" "+ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik= zawodnikitems;
             return View();
         }
 
@@ -48,6 +64,8 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,rodzaj,opis,data")] Kary kary)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            kary.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Kary.Add(kary);
@@ -61,6 +79,18 @@ namespace TABprojekt.Controllers
         // GET: Karie/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> zawodnikitems = new List<SelectListItem>();
+
+            var d = db.Zawodnik.ToList();
+            foreach (var ll in d)
+            {
+                zawodnikitems.Add(new SelectListItem
+                {
+                    Text = ll.imie + " " + ll.nazwisko,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Zawodnik = zawodnikitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +110,12 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,rodzaj,opis,data")] Kary kary)
         {
+            int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+            kary.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(kary).State = EntityState.Modified;
+                db.Kary.Remove(db.Kary.Where(k=>k.id==kary.id).FirstOrDefault());
+                db.Kary.Add(kary);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

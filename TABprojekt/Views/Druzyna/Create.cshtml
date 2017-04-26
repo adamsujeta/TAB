@@ -6,12 +6,18 @@
 }
 
 <h2>Create</h2>
+@{
+    var getlistTrener = ViewBag.trener as IEnumerable<SelectListItem>;
+    var getlistLiga = ViewBag.liga as IEnumerable<SelectListItem>;
+    var getlistKraj = ViewBag.kraj as IEnumerable<SelectListItem>;
+    var getlistStadion = ViewBag.stadion as IEnumerable<SelectListItem>;
 
+}
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Druzyna</h4>
         <hr />
@@ -28,16 +34,35 @@
                 @Html.EditorFor(model => model.nazwa, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.nazwa, "", new { @class = "text-danger" })
             </div>
-
+        </div>
+        <div class="form-group">
             @Html.LabelFor(model => model.liga, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-
-
-              @Html.DropDownList("liga")
+                @Html.DropDownList("LigaSelected", getlistLiga, new { @class = "css-class" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.stadion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StadionSelected", getlistStadion, new { @class = "css-class" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.trener, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TrenerSelected", getlistTrener, new { @class = "css-class" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.kraj, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("KrajSelected", getlistKraj, new { @class = "css-class" })
             </div>
 
 
+
         </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -13,8 +13,8 @@ namespace TABprojekt.Models
         public int bramki { get; set; }
         public int kartkiCzerwone { get; set; }
         public int kartkiZolte { get; set; }
-        public Zawodnik zawodnik { get; set; }
+        public virtual Zawodnik zawodnik { get; set; }
 
-        public Mecze mecz { get; set; }
+        public virtual Mecze mecz { get; set; }
     }
 }

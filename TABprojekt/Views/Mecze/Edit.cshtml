@@ -6,6 +6,12 @@
 }
 
 <h2>Edit</h2>
+@{
+    var getlistD = ViewBag.druzyna as IEnumerable<SelectListItem>;
+
+    var getlistStadion = ViewBag.stadion as IEnumerable<SelectListItem>;
+
+}
 
 
 @using (Html.BeginForm())
@@ -41,7 +47,33 @@
                 @Html.ValidationMessageFor(model => model.wynikKoniec, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.stadion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StadionSelected", getlistStadion, new { @class = "css-class" })
+            </div>
 
+
+
+        </div>
+        <div class="form-group">
+            @Html.Label("Gospodarze", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("druzyna1Selected", getlistD, new { @class = "css-class" })
+            </div>
+
+
+
+        </div>
+        <div class="form-group">
+            @Html.Label("Goście", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("druzyna2Selected", getlistD, new { @class = "css-class" })
+            </div>
+
+
+
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

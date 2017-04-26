@@ -11,10 +11,10 @@ namespace TABprojekt.Models
     {
         public int id { get; set; }
         public string nazwa { get; set; }
-        public Kraj kraj { get; set; }
-        public Stadion stadion { get; set; }
-        public Liga liga { get; set; }
-        public Trener trener { get; set; }
+        public virtual Kraj kraj { get; set; }
+        public virtual Stadion stadion { get; set; }
+        public virtual Liga liga { get; set; }
+        public virtual Trener trener { get; set; }
 
         public virtual ICollection<Mecze> mecze { get; set; }
         public virtual ICollection<Zawodnik> zawodnicy { get; set; }

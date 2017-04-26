@@ -19,9 +19,9 @@ namespace TABprojekt.Models
         public string pozycja { get; set; }
 
         public int numer { get; set; }
-        public Druzyna druzyna { get; set; }
+        public virtual Druzyna druzyna { get; set; }
         public DateTime data_urodzenia { get; set; }
-        public Kraj kraj { get; set; }
+        public virtual Kraj kraj { get; set; }
 
         public virtual ICollection<Kary> kary { get; set; }
         public virtual ICollection<Kontuzje> kontuzje{ get; set; }

@@ -14,7 +14,7 @@ namespace TABprojekt.Models
         public string opis { get; set; }
 
         public DateTime data { get; set; }
-        public Zawodnik zawodnik { get; set; }
+        public virtual Zawodnik zawodnik { get; set; }
 
     }
 }

@@ -34,7 +34,16 @@
         <dd>
             @Html.DisplayFor(model => model.kartkiZolte)
         </dd>
-
+        <dt>
+            @Html.ActionLink("Mecz", "Details", "Mecze", new { id = Model.mecz.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+    @Html.ActionLink("Zawodnik", "Details", "Zawodnik", new { id = Model.zawodnik.id }, null)
+</dt>
+<dd>
+</dd>
     </dl>
 </div>
 <p>

@@ -6,7 +6,6 @@
 }
 
 <h2>Details</h2>
-
 <div>
     <h4>Druzyna</h4>
     <hr />
@@ -19,14 +18,50 @@
             @Html.DisplayFor(model => model.nazwa)
         </dd>
 
+        <dt>
+            @Html.ActionLink("Trener", "Details", "Trener", new { id = Model.trener.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            @Html.ActionLink("Stadion", "Details", "Stadion", new { id = Model.stadion.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+           @Html.ActionLink("Kraj", "Details", "Kraj", new { id = Model.kraj.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+           @Html.ActionLink("Liga", "Details", "Liga", new { id = Model.liga.id }, null)
+        </dt>
+        <dd>
+        </dd>
+
+        <dt>
+            @Html.ActionLink("Zawodnicy", "Druzyna_zawodnicy", "Zawodnik", new { id = Model.id }, null)
+        </dt>
+        <dd>
+        </dd>
+
+        <dt>
+            @Html.ActionLink("Mecze", "Druzyna_Mecze", "Mecze", new { id = Model.id }, null)
+        </dt>
+        <dd>
+        </dd>
+
     </dl>
+</div>
+<div>
+   
+    
+    
+    
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-<div>
-    @Html.ActionLink("Liga", "szukaj", "Liga",Model.id)
-
-</div>

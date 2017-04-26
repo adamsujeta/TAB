@@ -11,7 +11,7 @@ namespace TABprojekt.Models
     {
         public int id { get; set; }
         public string nazwa { get; set; }
-        public Kraj kraj { get; set; }
+        public virtual Kraj kraj { get; set; }
         public virtual ICollection<Druzyna> druzyna { get; set; }
     }
 }

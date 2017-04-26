@@ -11,10 +11,10 @@ namespace TABprojekt.Models
     {
         public int id { get; set; }
 
-        public Druzyna druzyna1 { get; set; }
-        public Druzyna druzyna2 { get; set; }
+        public virtual Druzyna druzyna1 { get; set; }
+        public virtual Druzyna druzyna2 { get; set; }
 
-        public Stadion stadion { get; set; }
+        public virtual Stadion stadion { get; set; }
 
         public DateTime data { get; set; }
         public string wynikPolowa { get; set; }

@@ -34,7 +34,26 @@
         <dd>
             @Html.DisplayFor(model => model.wynikKoniec)
         </dd>
-
+        <dt>
+            @Html.ActionLink("Gospodarze", "Details", "Druzyna", new { id = Model.druzyna1.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            @Html.ActionLink("Goście", "Details", "Druzyna", new { id = Model.druzyna2.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            @Html.ActionLink("Stadion", "Details", "Stadion", new { id = Model.stadion.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            @Html.ActionLink("Sedziowie", "Mecze_Sedzia", "Sedzia", new { id = Model.id }, null)
+        </dt>
+        <dd>
+        </dd>
     </dl>
 </div>
 <p>

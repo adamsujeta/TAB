@@ -17,18 +17,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nazwa aplikacji", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Turniej", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Mecze", "Index", "Mecze")</li>
                     <li>@Html.ActionLink("Druzyny", "Index", "Druzyna")</li>
                     <li>@Html.ActionLink("Zawodnicy", "Index", "Zawodnik")</li>
+                    
                     <li>@Html.ActionLink("Kary", "Index", "Kary")</li>
+                    <li>@Html.ActionLink("Statystyki", "Index", "Statystyki")</li>
+                    <li>@Html.ActionLink("Kontuzje", "Index", "Kontuzje")</li>
 
+                    <li>@Html.ActionLink("Sedzia", "Index", "Sedzia")</li>
                     <li>@Html.ActionLink("Trener", "Index", "Trener")</li>
                     <li>@Html.ActionLink("Liga", "Index", "Liga")</li>
                     <li>@Html.ActionLink("Stadion", "Index", "Stadion")</li>
-                    <li>@Html.ActionLink("Sedzia", "Index", "Sedzia")</li>
+                    
+                    <li>@Html.ActionLink("Kraj", "Index", "Kraj")</li>
                 </ul>
             </div>
         </div>

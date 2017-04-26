@@ -34,7 +34,11 @@
         <dd>
             @Html.DisplayFor(model => model.data_do)
         </dd>
-
+        <dt>
+            @Html.ActionLink("Zawodnik", "Details", "Zawodnik", new { id = Model.zawodnik.id }, null)
+        </dt>
+        <dd>
+        </dd>
     </dl>
 </div>
 <p>

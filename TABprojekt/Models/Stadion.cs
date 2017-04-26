@@ -15,7 +15,7 @@ namespace TABprojekt.Models
 
         public string adres { get; set; }
         [DisplayName("Kraj")]
-        public Kraj kraj { get; set; }
+        public virtual Kraj kraj { get; set; }
 
         public int pojemnosc { get; set; }
         public virtual ICollection<Druzyna> druzyna { get; set; }

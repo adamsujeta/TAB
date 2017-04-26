@@ -13,13 +13,15 @@ namespace TABprojekt.Controllers
     public class ZawodnikController : Controller
     {
         private TABprojektContext db = new TABprojektContext();
-
         // GET: Zawodnik
         public ActionResult Index()
         {
             return View(db.Zawodnik.ToList());
         }
-
+        public ActionResult Druzyna_zawodnicy(int id)
+        {
+            return View(db.Zawodnik.Where(z=>z.druzyna.id==id).ToList());
+        }
         // GET: Zawodnik/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,10 +36,34 @@ namespace TABprojekt.Controllers
             }
             return View(zawodnik);
         }
-
+       
         // GET: Zawodnik/Create
         public ActionResult Create()
         {
+            List<SelectListItem> Druzynaitems = new List<SelectListItem>();
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var d = db.Druzyna.ToList();
+            foreach (var ll in d)
+            {
+                Druzynaitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Druzyna = Druzynaitems;
+            ViewBag.kraj = Krajitems;
             return View();
         }
 
@@ -48,6 +74,10 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,imie,nazwisko,wzrost,waga,pozycja,numer,data_urodzenia")] Zawodnik zawodnik)
         {
+            int druzynaid = Int32.Parse(Request.Form["DruzynaSelected"].ToString());
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+            zawodnik.druzyna = db.Druzyna.Where(d => d.id == druzynaid).FirstOrDefault();
+            zawodnik.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Zawodnik.Add(zawodnik);
@@ -61,6 +91,30 @@ namespace TABprojekt.Controllers
         // GET: Zawodnik/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> Druzynaitems = new List<SelectListItem>();
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var d = db.Druzyna.ToList();
+            foreach (var ll in d)
+            {
+                Druzynaitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.Druzyna = Druzynaitems;
+            ViewBag.kraj = Krajitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +134,12 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,imie,nazwisko,wzrost,waga,pozycja,numer,data_urodzenia")] Zawodnik zawodnik)
         {
+            int druzynaid = Int32.Parse(Request.Form["DruzynaSelected"].ToString());
+            zawodnik.druzyna = db.Druzyna.Where(d => d.id == druzynaid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(zawodnik).State = EntityState.Modified;
+                db.Zawodnik.Remove(db.Zawodnik.Where(z=>z.id==zawodnik.id).FirstOrDefault());
+                db.Zawodnik.Add(zawodnik);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

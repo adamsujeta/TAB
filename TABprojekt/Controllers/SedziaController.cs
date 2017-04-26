@@ -19,7 +19,10 @@ namespace TABprojekt.Controllers
         {
             return View(db.Sedzia.ToList());
         }
-
+        public ActionResult Mecze_Sedzia(int id)
+        {
+            return View(db.Sedzia.Where(s=>s.mecz.id==id).ToList());
+        }
         // GET: Sedzia/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,6 +41,18 @@ namespace TABprojekt.Controllers
         // GET: Sedzia/Create
         public ActionResult Create()
         {
+            List<SelectListItem> meczitems = new List<SelectListItem>();
+
+            var dd = db.Mecze.ToList();
+            foreach (var ll in dd)
+            {
+                meczitems.Add(new SelectListItem
+                {
+                    Text = ll.data.ToString("yyyy-MM-dd"),
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.mecz = meczitems;
             return View();
         }
 
@@ -48,6 +63,9 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,imie,nazwisko,ranga")] Sedzia sedzia)
         {
+            int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
+
+            sedzia.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Sedzia.Add(sedzia);
@@ -61,6 +79,18 @@ namespace TABprojekt.Controllers
         // GET: Sedzia/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> meczitems = new List<SelectListItem>();
+
+            var dd = db.Mecze.ToList();
+            foreach (var ll in dd)
+            {
+                meczitems.Add(new SelectListItem
+                {
+                    Text = ll.data.ToString("yyyy-MM-dd"),
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.mecz = meczitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +110,10 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,imie,nazwisko,ranga")] Sedzia sedzia)
         {
+            int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
+
+            sedzia.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
                 db.Entry(sedzia).State = EntityState.Modified;
