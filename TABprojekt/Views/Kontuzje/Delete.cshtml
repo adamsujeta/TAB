@@ -1,0 +1,49 @@
+﻿@model TABprojekt.Models.Kontuzje
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Kontuzje</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.rodzaj)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rodzaj)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.data_od)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.data_od)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.data_do)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.data_do)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,43 @@
+﻿@model TABprojekt.Models.Statystyki
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Statystyki</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.bramki)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bramki)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kartkiCzerwone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kartkiCzerwone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kartkiZolte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kartkiZolte)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
