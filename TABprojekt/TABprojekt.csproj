@@ -167,7 +167,6 @@
       <DependentUpon>201704261139071_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ApplicationDBContext.cs" />
     <Compile Include="Models\Druzyna.cs" />
     <Compile Include="Models\Kary.cs" />
     <Compile Include="Models\Kontuzje.cs" />

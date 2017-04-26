@@ -5,14 +5,14 @@ namespace TABprojekt.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TABprojekt.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<TABprojekt.Models.TABprojektContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(TABprojekt.Models.ApplicationDbContext context)
+        protected override void Seed(TABprojekt.Models.TABprojektContext context)
         {
             //  This method will be called after migrating to the latest version.
 
