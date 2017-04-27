@@ -290,6 +290,8 @@
     <Content Include="Views\Kontuzje\Zawodnik_Kontuzje.cshtml" />
     <Content Include="Views\Statystyki\Zawodnik_Statystyki.cshtml" />
     <Content Include="Views\Sedzia\Mecze_Sedzia.cshtml" />
+    <Content Include="Views\Druzyna\Search.cshtml" />
+    <Content Include="Views\Zawodnik\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

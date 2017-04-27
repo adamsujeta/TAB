@@ -18,6 +18,10 @@ namespace TABprojekt.Controllers
         {
             return View(db.Zawodnik.ToList());
         }
+        public ActionResult Search(string search)
+        {
+            return View(db.Zawodnik.Where(e => e.imie.ToLower().Contains(search.ToLower()) || e.nazwisko.ToLower().Contains(search.ToLower())).ToList());
+        }
         public ActionResult Druzyna_zawodnicy(int id)
         {
             return View(db.Zawodnik.Where(z=>z.druzyna.id==id).ToList());

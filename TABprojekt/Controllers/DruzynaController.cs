@@ -20,6 +20,12 @@ namespace TABprojekt.Controllers
             return View(db.Druzyna.ToList());
         }
 
+        public ActionResult Search(string search)
+        {
+
+            return View(db.Druzyna.Where(e => e.nazwa.ToLower().Contains(search.ToLower())).ToList());
+        }
+
 
         // GET: Druzyna/Details/5
         public ActionResult Details(int? id)
