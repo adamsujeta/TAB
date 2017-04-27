@@ -200,21 +200,15 @@ namespace TABprojekt.Controllers
             int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
             int trenerid = Int32.Parse(Request.Form["TrenerSelected"].ToString());
 
-            druzyna.liga = db.Liga.Where(l => l.id == ligaid).FirstOrDefault();
-            druzyna.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
-            druzyna.kraj = db.Kraj.Where(l => l.id == krajid).FirstOrDefault();
-            druzyna.trener = db.Trener.Where(l => l.id == trenerid).FirstOrDefault();
+            Druzyna nd = db.Druzyna.Find(druzyna.id);
+            nd.nazwa = druzyna.nazwa;
+            nd.liga = db.Liga.Where(l => l.id == ligaid).FirstOrDefault();
+            nd.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
+            nd.kraj = db.Kraj.Where(l => l.id == krajid).FirstOrDefault();
+            nd.trener = db.Trener.Where(l => l.id == trenerid).FirstOrDefault();
 
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(druzyna).State = EntityState.Modified;
-            //    db.SaveChanges();
-
-            //}
             if (ModelState.IsValid)
             {
-                db.Druzyna.Remove(db.Druzyna.Where(dd=>dd.id==druzyna.id).FirstOrDefault());
-                db.Druzyna.Add(druzyna);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");

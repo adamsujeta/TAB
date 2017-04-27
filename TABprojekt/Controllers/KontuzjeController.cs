@@ -111,11 +111,16 @@ namespace TABprojekt.Controllers
         public ActionResult Edit([Bind(Include = "id,rodzaj,data_od,data_do")] Kontuzje kontuzje)
         {
             int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
-            kontuzje.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
+            
+
+            Kontuzje nk = db.Kontuzje.Find(kontuzje.id);
+
+            nk.rodzaj = kontuzje.rodzaj;
+            nk.data_od = kontuzje.data_od;
+            nk.data_do = kontuzje.data_do;
+            nk.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Kontuzje.Remove(db.Kontuzje.Where(k => k.id == kontuzje.id).FirstOrDefault());
-                db.Kontuzje.Add(kontuzje);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

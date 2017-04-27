@@ -112,11 +112,14 @@ namespace TABprojekt.Controllers
         {
             int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
 
-            sedzia.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
-
+           
+            Sedzia ns = db.Sedzia.Where(s => s.id == sedzia.id).FirstOrDefault();
+            ns.imie = sedzia.imie;
+            ns.nazwisko = sedzia.nazwisko;
+            ns.ranga = sedzia.ranga;
+            ns.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(sedzia).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -146,14 +146,17 @@ namespace TABprojekt.Controllers
             int druzyna1id = Int32.Parse(Request.Form["druzyna1Selected"].ToString());
             int druzyna2id = Int32.Parse(Request.Form["druzyna2Selected"].ToString());
 
-            mecze.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
-            mecze.druzyna1 = db.Druzyna.Where(l => l.id == druzyna1id).FirstOrDefault();
-            mecze.druzyna2 = db.Druzyna.Where(l => l.id == druzyna2id).FirstOrDefault();
+            
 
+            Mecze newMecze = db.Mecze.Where(m => m.id == mecze.id).FirstOrDefault();
+            newMecze.data = mecze.data;
+            newMecze.wynikKoniec = mecze.wynikKoniec;
+            newMecze.wynikPolowa = mecze.wynikPolowa;
+            newMecze.stadion = db.Stadion.Where(l => l.id == stadionid).FirstOrDefault();
+            newMecze.druzyna1 = db.Druzyna.Where(l => l.id == druzyna1id).FirstOrDefault();
+            newMecze.druzyna2 = db.Druzyna.Where(l => l.id == druzyna2id).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Mecze.Remove(db.Mecze.Where(dd => dd.id == mecze.id).FirstOrDefault());
-                db.Mecze.Add(mecze);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

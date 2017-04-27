@@ -135,11 +135,20 @@ namespace TABprojekt.Controllers
         public ActionResult Edit([Bind(Include = "id,imie,nazwisko,wzrost,waga,pozycja,numer,data_urodzenia")] Zawodnik zawodnik)
         {
             int druzynaid = Int32.Parse(Request.Form["DruzynaSelected"].ToString());
-            zawodnik.druzyna = db.Druzyna.Where(d => d.id == druzynaid).FirstOrDefault();
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            Zawodnik nz = db.Zawodnik.Find(zawodnik.id);
+            nz.imie = zawodnik.imie;
+            nz.nazwisko = zawodnik.nazwisko;
+            nz.wzrost = zawodnik.wzrost;
+            nz.waga = zawodnik.waga;
+            nz.pozycja = zawodnik.pozycja;
+            nz.numer = zawodnik.numer;
+            nz.data_urodzenia = zawodnik.data_urodzenia;
+            nz.druzyna = db.Druzyna.Where(d => d.id == druzynaid).FirstOrDefault();
+            nz.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Zawodnik.Remove(db.Zawodnik.Where(z=>z.id==zawodnik.id).FirstOrDefault());
-                db.Zawodnik.Add(zawodnik);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -45,6 +45,18 @@ namespace TABprojekt.Controllers
         // GET: Liga/Create
         public ActionResult Create()
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             return View();
         }
 
@@ -55,6 +67,9 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,nazwa")] Liga liga)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            liga.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Liga.Add(liga);
@@ -68,6 +83,18 @@ namespace TABprojekt.Controllers
         // GET: Liga/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -87,9 +114,13 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,nazwa")] Liga liga)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            Liga newLiga = db.Liga.Where(l => l.id == liga.id).FirstOrDefault();
+            newLiga.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
+            newLiga.nazwa = liga.nazwa;
             if (ModelState.IsValid)
             {
-                db.Entry(liga).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

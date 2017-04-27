@@ -38,6 +38,18 @@ namespace TABprojekt.Controllers
         // GET: Stadion/Create
         public ActionResult Create()
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             return View();
         }
 
@@ -48,6 +60,9 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,nazwa,adres,pojemnosc")] Stadion stadion)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            stadion.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.Stadion.Add(stadion);
@@ -61,6 +76,18 @@ namespace TABprojekt.Controllers
         // GET: Stadion/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +107,15 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,nazwa,adres,pojemnosc")] Stadion stadion)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            Stadion newStadion = db.Stadion.Where(s => s.id == stadion.id).FirstOrDefault();
+            newStadion.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
+            newStadion.nazwa = stadion.nazwa;
+            newStadion.adres = stadion.adres;
+            newStadion.pojemnosc = stadion.pojemnosc;
             if (ModelState.IsValid)
             {
-                db.Entry(stadion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

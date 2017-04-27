@@ -142,12 +142,17 @@ namespace TABprojekt.Controllers
             int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
             int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
 
-            statystyki.zawodnik = db.Zawodnik.Where(d => d.id == meczid).FirstOrDefault();
-            statystyki.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
+            Statystyki ns = db.Statystyki.Where(i => i.id == statystyki.id).FirstOrDefault();
+
+            ns.bramki = statystyki.bramki;
+            ns.kartkiCzerwone = statystyki.kartkiCzerwone;
+            ns.kartkiZolte = statystyki.kartkiZolte;
+
+            ns.zawodnik = db.Zawodnik.Where(d => d.id == meczid).FirstOrDefault();
+            ns.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
-                db.Statystyki.Remove(db.Statystyki.Where(k => k.id == statystyki.id).FirstOrDefault());
-                db.Statystyki.Add(statystyki);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -65,6 +65,7 @@ namespace TABprojekt.Controllers
         public ActionResult Create([Bind(Include = "id,rodzaj,opis,data")] Kary kary)
         {
             int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
+
             kary.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
@@ -111,11 +112,14 @@ namespace TABprojekt.Controllers
         public ActionResult Edit([Bind(Include = "id,rodzaj,opis,data")] Kary kary)
         {
             int zawodnikid = Int32.Parse(Request.Form["ZawodnikSelected"].ToString());
-            kary.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
+            Kary nk = db.Kary.Find(kary.id);
+
+            nk.rodzaj = kary.rodzaj;
+            nk.opis = kary.opis;
+            nk.data = kary.data;
+            nk.zawodnik = db.Zawodnik.Where(d => d.id == zawodnikid).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Kary.Remove(db.Kary.Where(k=>k.id==kary.id).FirstOrDefault());
-                db.Kary.Add(kary);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

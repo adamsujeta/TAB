@@ -67,6 +67,11 @@
             @Html.DisplayFor(model => model.data_urodzenia)
         </dd>
         <dt>
+            @Html.ActionLink("Kraj", "Details", "Kraj", new { id = Model.kraj.id }, null)
+        </dt>
+        <dd>
+        </dd>
+        <dt>
             @Html.ActionLink("Kary", "Zawodnik_Kary", "Kary", new { id = Model.id }, null)
         </dt>
         <dd>
@@ -87,10 +92,5 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
-<div>
-   @Html.ActionLink("Statystyki", "Index", "Statystyki")
-
-</div>
 
 
