@@ -70,6 +70,7 @@
             @Html.ActionLink("Kraj", "Details", "Kraj", new { id = Model.kraj.id }, null)
         </dt>
         <dd>
+            @Html.DisplayName(Model.kraj.nazwa)
         </dd>
         <dt>
             @Html.ActionLink("Kary", "Zawodnik_Kary", "Kary", new { id = Model.id }, null)

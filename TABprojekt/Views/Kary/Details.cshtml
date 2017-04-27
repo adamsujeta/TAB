@@ -38,6 +38,7 @@
             @Html.ActionLink("Zawodnik", "Details", "Zawodnik", new { id = Model.zawodnik.id }, null)
         </dt>
         <dd>
+            @Html.DisplayName(Model.zawodnik.imie + " " + Model.zawodnik.nazwisko)
         </dd>
     </dl>
 </div>

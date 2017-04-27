@@ -38,6 +38,18 @@ namespace TABprojekt.Controllers
         // GET: Trener/Create
         public ActionResult Create()
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             return View();
         }
 
@@ -48,6 +60,11 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,imie,nazwisko,data_urodzenia")] Trener trener)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+            trener.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
+
+
             if (ModelState.IsValid)
             {
                 db.Trener.Add(trener);
@@ -61,6 +78,18 @@ namespace TABprojekt.Controllers
         // GET: Trener/Edit/5
         public ActionResult Edit(int? id)
         {
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,9 +109,15 @@ namespace TABprojekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,imie,nazwisko,data_urodzenia")] Trener trener)
         {
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+            Trener nl = db.Trener.Find(trener.id);
+            nl.imie = trener.imie;
+            nl.nazwisko = trener.nazwisko;
+            nl.data_urodzenia = trener.data_urodzenia;
+            nl.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
-                db.Entry(trener).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

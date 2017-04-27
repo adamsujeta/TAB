@@ -34,7 +34,13 @@
         <dd>
             @Html.DisplayFor(model => model.data_urodzenia)
         </dd>
+        <dt>
+            @Html.ActionLink("Kraj", "Details", "Kraj", new { id = Model.kraj.id }, null)
+        </dt>
+        <dd>
+            @Html.DisplayName(Model.kraj.nazwa)
 
+        </dd>
     </dl>
 </div>
 <p>

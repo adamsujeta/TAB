@@ -21,12 +21,6 @@ namespace TABprojekt.Controllers
         }
 
 
-        public ActionResult szukaj(int id)
-        {
-            return View(db.Liga.Where(l=>l.id==id).ToList());
-        }
-
-
         // GET: Liga/Details/5
         public ActionResult Details(int? id)
         {
