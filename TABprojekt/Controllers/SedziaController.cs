@@ -53,6 +53,18 @@ namespace TABprojekt.Controllers
                 });
             }
             ViewBag.mecz = meczitems;
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             return View();
         }
 
@@ -64,7 +76,9 @@ namespace TABprojekt.Controllers
         public ActionResult Create([Bind(Include = "id,imie,nazwisko,ranga")] Sedzia sedzia)
         {
             int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
 
+            sedzia.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             sedzia.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
             if (ModelState.IsValid)
             {
@@ -91,6 +105,18 @@ namespace TABprojekt.Controllers
                 });
             }
             ViewBag.mecz = meczitems;
+            List<SelectListItem> Krajitems = new List<SelectListItem>();
+
+            var kraj = db.Kraj.ToList();
+            foreach (var ll in kraj)
+            {
+                Krajitems.Add(new SelectListItem
+                {
+                    Text = ll.nazwa,
+                    Value = ll.id.ToString()
+                });
+            }
+            ViewBag.kraj = Krajitems;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -112,12 +138,15 @@ namespace TABprojekt.Controllers
         {
             int meczid = Int32.Parse(Request.Form["MeczSelected"].ToString());
 
-           
+            int krajid = Int32.Parse(Request.Form["KrajSelected"].ToString());
+
+
             Sedzia ns = db.Sedzia.Where(s => s.id == sedzia.id).FirstOrDefault();
             ns.imie = sedzia.imie;
             ns.nazwisko = sedzia.nazwisko;
             ns.ranga = sedzia.ranga;
             ns.mecz = db.Mecze.Where(d => d.id == meczid).FirstOrDefault();
+            ns.kraj = db.Kraj.Where(d => d.id == krajid).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.SaveChanges();
